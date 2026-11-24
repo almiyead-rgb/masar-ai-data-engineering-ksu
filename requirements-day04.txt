@@ -1,0 +1,5 @@
+# Direct runtime pins. See evidence/ for the environments actually executed.
+-r requirements-runtime.txt
+kafka-python==2.2.15
+great-expectations==1.7.0
+pandas==2.2.3

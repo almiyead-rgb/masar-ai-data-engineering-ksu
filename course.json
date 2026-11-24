@@ -1,0 +1,782 @@
+{
+  "title": "Modern Data Engineering for AI Systems",
+  "short_title": "Masar",
+  "code": "SDA-DSC-214",
+  "instructor": "Meaad Al-Marri",
+  "audience": "King Saud University students",
+  "repository": "https://github.com/almiyead-rgb/masar-ai-data-engineering-ksu",
+  "language": "en",
+  "description": "Build one cumulative Mini-Lakehouse across five evenings. Run your labs in Google Colab, compare your results, and save your progress to GitHub every day.",
+  "schedule": {
+    "days": 5,
+    "start": "17:00",
+    "end": "21:00",
+    "timezone": "Asia/Riyadh",
+    "lecture_minutes": 150,
+    "lab_minutes": 60,
+    "prayer_breaks": [
+      {
+        "name": "Maghrib",
+        "minutes": 15
+      },
+      {
+        "name": "Isha",
+        "minutes": 15
+      }
+    ],
+    "total_hours": 20,
+    "net_learning_hours": 17.5,
+    "slides_per_day": 20,
+    "dates": null,
+    "prayer_note": "The instructor confirms the placement of both prayer breaks for the actual course dates. Keep a full 60-minute lab."
+  },
+  "learning_outcomes": [
+    {
+      "id": "LO1",
+      "text": "Compare warehouses, data lakes and Lakehouse architectures for a stated use case.",
+      "days": [
+        1
+      ],
+      "evidence": "An architecture decision for Masar."
+    },
+    {
+      "id": "LO2",
+      "text": "Explain compute–storage separation and its effects on cost, elasticity and scale.",
+      "days": [
+        1
+      ],
+      "evidence": "A cost comparison with explicit assumptions."
+    },
+    {
+      "id": "LO3",
+      "text": "Design an ELT pipeline for a modern cloud data environment.",
+      "days": [
+        2
+      ],
+      "evidence": "Bronze-to-Silver transformations, dbt models and actual test results."
+    },
+    {
+      "id": "LO4",
+      "text": "Implement Delta Lake tables with ACID transactions and schema enforcement.",
+      "days": [
+        3
+      ],
+      "evidence": "Accepted and rejected writes, revision-aware MERGE and version evidence."
+    },
+    {
+      "id": "LO5",
+      "text": "Develop streaming and event-driven ingestion patterns.",
+      "days": [
+        4
+      ],
+      "evidence": "Kafka delivery, a Spark checkpoint restart and distinct-event evidence."
+    },
+    {
+      "id": "LO6",
+      "text": "Apply data-quality, observability and governance controls across a pipeline.",
+      "days": [
+        3,
+        4,
+        5
+      ],
+      "evidence": "Quality rejection, quarantine, revalidation, monitoring and governance decisions."
+    },
+    {
+      "id": "LO7",
+      "text": "Connect Lakehouse products to AI, reporting and analytics consumers.",
+      "days": [
+        5
+      ],
+      "evidence": "A reconciled BI query and time-aware AI feature inputs."
+    },
+    {
+      "id": "LO8",
+      "text": "Build a working Mini-Lakehouse with Delta Lake and PySpark.",
+      "days": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "evidence": "One cumulative project with restorable state and reproducible outputs."
+    }
+  ],
+  "assessment": [
+    {
+      "id": "architecture",
+      "title": "Business problem, architecture and cost",
+      "points": 10,
+      "evidence": "Explain the problem (2), compare architectures (3), explain compute/storage and cost (3), show the architecture (2)."
+    },
+    {
+      "id": "elt",
+      "title": "Bronze, ELT, Silver and dbt",
+      "points": 20,
+      "evidence": "Raw/source evidence (5), types and relationships (5), duplicates and late arrivals (5), actual dbt models and tests (5)."
+    },
+    {
+      "id": "delta",
+      "title": "Delta reliability and corrections",
+      "points": 15,
+      "evidence": "Real Delta transactions (3), rejected write evidence (4), revision-aware correction/replay (4), history and recovery (4)."
+    },
+    {
+      "id": "streaming",
+      "title": "Event ingestion",
+      "points": 10,
+      "evidence": "Actual Kafka producer/consumer evidence (4), checkpoint restart (3), interpretation of delivery, event identity and lateness (3)."
+    },
+    {
+      "id": "quality",
+      "title": "Quality, observability and governance",
+      "points": 15,
+      "evidence": "GX quality gate (5), quarantine and revalidation (4), operational observations (3), ownership/lineage/access/retention decisions (3)."
+    },
+    {
+      "id": "serving",
+      "title": "Gold, AI and BI consumers",
+      "points": 15,
+      "evidence": "Product contracts and grain (4), BI reconciliation (4), time-aware AI inputs (5), unknown versus zero (2)."
+    },
+    {
+      "id": "integration",
+      "title": "Integration, reproducibility and documentation",
+      "points": 10,
+      "evidence": "Dependency order (4), state save/restore (2), failed-candidate recovery (2), README and final version (2)."
+    },
+    {
+      "id": "reflection",
+      "title": "Five daily evidence-based answers",
+      "points": 5,
+      "evidence": "One point per day for your explanation connected to an observed result."
+    }
+  ],
+  "certificate_policy": {
+    "required_attendance_days": 5,
+    "project_max_score": 100,
+    "passing_project_score": 70,
+    "pass_requirement": "Attend all five days and earn at least 70 out of 100 on the project.",
+    "attendance_only": "Attend all five days and either do not submit a project or earn fewer than 70 points.",
+    "pending": "A submitted project is pending until it has been assessed.",
+    "incomplete_attendance": "Fewer than five attended days does not meet the completion requirement. Ask the organizer about attendance-certificate eligibility.",
+    "scope": "This is the policy for this course, not a statement of a general SDAIA certification policy."
+  },
+  "submission": {
+    "mode": "individual",
+    "collaboration": "You may discuss and work together during labs. Keep your own repository, execution evidence and explanations.",
+    "channel_url": null,
+    "deadline": null,
+    "timezone": "Asia/Riyadh",
+    "instructions": "Submit your repository URL, branch and final commit SHA using the private channel announced by the instructor. The organizer confirms the deadline and resubmission policy."
+  },
+  "days": [
+    {
+      "number": 1,
+      "id": "day01",
+      "title": "Architecture and Bronze",
+      "subtitle": "Keep the original data and explain your architecture choice.",
+      "outcomes": [
+        "LO1",
+        "LO2",
+        "LO8"
+      ],
+      "concepts": [
+        "Warehouse, data lake and Lakehouse",
+        "Compute–storage separation and cost assumptions",
+        "Bronze, Silver and Gold responsibilities",
+        "Source provenance and receipt identity",
+        "A small CSV/Delta scan comparison"
+      ],
+      "labs": [
+        {
+          "id": "01",
+          "title": "Land and inspect the raw feeds",
+          "path": "day01/labs/lab01/WALKTHROUGH.md"
+        },
+        {
+          "id": "02",
+          "title": "Compare cost and local scan evidence",
+          "path": "day01/labs/lab02/WALKTHROUGH.md"
+        }
+      ],
+      "expected": [
+        {
+          "label": "Trip receipts after redelivery",
+          "value": "144",
+          "explanation": "Two deliveries of the same 72-trip source."
+        },
+        {
+          "label": "Unique trip IDs",
+          "value": "72",
+          "explanation": "A business trip is different from a delivery receipt."
+        },
+        {
+          "label": "Drivers / GPS events",
+          "value": "6 / 216",
+          "explanation": "These inputs are not redelivered in this scenario."
+        }
+      ],
+      "activity": {
+        "prompt": "Place each example in Bronze, Silver or Gold: original trip file; one validated row per trip; city revenue report.",
+        "answer": "Original trip file: Bronze. Validated trip table: Silver. City revenue report: Gold."
+      },
+      "question": "Bronze contains 144 trip receipts but only 72 distinct trip IDs. How many business trips have you observed, and why keep the receipts?",
+      "answer": "You observed 72 distinct trips delivered twice. Preserve the 144 receipt records and their source metadata so you can explain arrivals. Silver will select the business record for each trip.",
+      "deliverables": [
+        "Executed Day 1 notebook",
+        "student/day01/LAB01_NOTES.md and student/day01/LAB02_NOTES.md",
+        "Architecture/cost decision and observed scan evidence",
+        "Bronze counts and source metadata",
+        "Day 1 GitHub bundle and handoff archive",
+        "student/day01/REFLECTION.md with your own answer and observed evidence"
+      ],
+      "notebook": "day01/STUDENT.ipynb",
+      "readme": "day01/README.md",
+      "slides": "slides/day01.json"
+    },
+    {
+      "number": 2,
+      "id": "day02",
+      "title": "ELT and trusted Silver",
+      "subtitle": "Turn repeated receipts into reliable business records.",
+      "outcomes": [
+        "LO3",
+        "LO4",
+        "LO8"
+      ],
+      "concepts": [
+        "ETL versus ELT",
+        "Types, timestamps and relationships",
+        "Business keys and deterministic deduplication",
+        "Late arrivals and idempotent processing",
+        "dbt models, tests, freshness and lineage"
+      ],
+      "labs": [
+        {
+          "id": "03",
+          "title": "Build Silver and run dbt",
+          "path": "day02/labs/lab03/WALKTHROUGH.md"
+        }
+      ],
+      "expected": [
+        {
+          "label": "Silver trips",
+          "value": "75",
+          "explanation": "72 base trips plus three late trips; replay adds no business trips."
+        },
+        {
+          "label": "Total fares",
+          "value": "SAR 1,875.60",
+          "explanation": "SAR 1,794.60 plus SAR 81.00 of late-trip fares."
+        },
+        {
+          "label": "Final Bronze receipts",
+          "value": "150",
+          "explanation": "Receipts record the original deliveries and the late-batch redelivery."
+        },
+        {
+          "label": "dbt phase counts",
+          "value": "72, 72, 75, 75",
+          "explanation": "Base, rerun, late and late_replay."
+        }
+      ],
+      "activity": {
+        "prompt": "Choose the trip business key: driver_id, trip date or trip_id. Explain one collision the wrong key would create.",
+        "answer": "Use trip_id. A driver can complete many trips and a date can contain many trips, so neither uniquely identifies a trip."
+      },
+      "question": "Silver has 75 trips after three late trips arrive. Will replaying that same late data increase the result to 78?",
+      "answer": "No. Silver stays at 75 because the replay carries the same trip IDs and identical business values. Receipt counts may increase for a new delivery; the business count must not.",
+      "deliverables": [
+        "Executed Day 2 notebook",
+        "student/day02/LAB03_NOTES.md and your SQL task",
+        "Five Silver scenario checks",
+        "Actual dbt report, model/test evidence and documentation",
+        "Day 2 GitHub bundle and cumulative handoff archive",
+        "student/day02/REFLECTION.md with your own answer and observed evidence"
+      ],
+      "notebook": "day02/STUDENT.ipynb",
+      "readme": "day02/README.md",
+      "slides": "slides/day02.json"
+    },
+    {
+      "number": 3,
+      "id": "day03",
+      "title": "Delta reliability and corrections",
+      "subtitle": "Apply a correction once and keep a trustworthy history.",
+      "outcomes": [
+        "LO4",
+        "LO6",
+        "LO8"
+      ],
+      "concepts": [
+        "ACID transactions and the Delta log",
+        "Schema enforcement and approved evolution",
+        "Constraints and rejected writes",
+        "Source revision versus Delta version",
+        "MERGE, time travel and isolated maintenance"
+      ],
+      "labs": [
+        {
+          "id": "04",
+          "title": "Apply corrections and inspect Delta history",
+          "path": "day03/labs/lab04/WALKTHROUGH.md"
+        }
+      ],
+      "expected": [
+        {
+          "label": "Corrected trip fare",
+          "value": "SAR 23.00",
+          "explanation": "SYN_T0001 changes from SAR 18.00 at source revision 2."
+        },
+        {
+          "label": "Silver trips",
+          "value": "75",
+          "explanation": "A correction changes one trip instead of adding another."
+        },
+        {
+          "label": "Total fares",
+          "value": "SAR 1,880.60",
+          "explanation": "The correction adds SAR 5.00 once."
+        },
+        {
+          "label": "Correction replay",
+          "value": "Unchanged",
+          "explanation": "The same accepted correction does not add another SAR 5.00."
+        }
+      ],
+      "activity": {
+        "prompt": "Choose a response for each message: a newer approved revision; an older revision; the same revision with conflicting business values.",
+        "answer": "Apply the newer revision, leave the accepted value unchanged for the older revision, and reject the same-revision conflict for investigation."
+      },
+      "question": "A trip fare changes from SAR 18 to SAR 23. If the correction is delivered again, should the fare become SAR 28?",
+      "answer": "No. The approved value stays SAR 23. Revision-aware MERGE applies the accepted business state; it does not repeatedly add a correction difference.",
+      "deliverables": [
+        "Executed Day 3 notebook",
+        "student/day03/LAB04_NOTES.md",
+        "Correction, stale-revision and conflict evidence",
+        "Rejected write and history/recovery results",
+        "Day 3 GitHub bundle and cumulative handoff archive",
+        "student/day03/REFLECTION.md with your own answer and observed evidence"
+      ],
+      "notebook": "day03/STUDENT.ipynb",
+      "readme": "day03/README.md",
+      "slides": "slides/day03.json"
+    },
+    {
+      "number": 4,
+      "id": "day04",
+      "title": "Streaming, quality and governance",
+      "subtitle": "Receive events and stop defective data before serving it.",
+      "outcomes": [
+        "LO5",
+        "LO6",
+        "LO8"
+      ],
+      "concepts": [
+        "Kafka producers, topics, partitions and offsets",
+        "Spark streaming and checkpoint restart",
+        "Event time, arrival time and event identity",
+        "Great Expectations quality gates and quarantine",
+        "Freshness, volume, lineage and ownership"
+      ],
+      "labs": [
+        {
+          "id": "05",
+          "title": "Ingest events and resume the query",
+          "path": "day04/labs/lab05/WALKTHROUGH.md"
+        },
+        {
+          "id": "06",
+          "title": "Reject, quarantine and revalidate",
+          "path": "day04/labs/lab06/WALKTHROUGH.md"
+        }
+      ],
+      "expected": [
+        {
+          "label": "Received message records",
+          "value": "219",
+          "explanation": "The experiment includes two replayed messages and one new late event."
+        },
+        {
+          "label": "Distinct events",
+          "value": "217",
+          "explanation": "The two identical replayed event IDs do not become new business events."
+        },
+        {
+          "label": "Quality candidate",
+          "value": "82 → rejected",
+          "explanation": "The candidate combines 75 trusted rows with seven deliberately defective rows."
+        },
+        {
+          "label": "Quarantine / revalidated",
+          "value": "7 / 75",
+          "explanation": "Record rejection reasons, then test a new clean candidate before approval."
+        }
+      ],
+      "activity": {
+        "prompt": "Two Kafka messages have different offsets but the same event_id and identical payloads. How many deliveries and business events do they represent?",
+        "answer": "They represent two deliveries and one distinct business event. Transport offsets identify records in a partition; event_id identifies the business event."
+      },
+      "question": "A candidate contains 82 rows and fails because seven are invalid. How can you safely use the other 75?",
+      "answer": "Block the failed candidate, quarantine the seven rows with reasons, create a clean 75-row candidate, and run the quality gate again before approving it.",
+      "deliverables": [
+        "Executed Day 4 notebook",
+        "student/day04/LAB05_NOTES.md and student/day04/LAB06_NOTES.md",
+        "Kafka, checkpoint and distinct-event reports",
+        "GX validation and quarantine reasons",
+        "GOVERNANCE.md and monitoring observations",
+        "Day 4 GitHub bundle and cumulative handoff archive",
+        "student/day04/REFLECTION.md with your own answer and observed evidence"
+      ],
+      "notebook": "day04/STUDENT.ipynb",
+      "readme": "day04/README.md",
+      "slides": "slides/day04.json"
+    },
+    {
+      "number": 5,
+      "id": "day05",
+      "title": "Gold, AI/BI and final delivery",
+      "subtitle": "Publish understandable data products and submit your cumulative work.",
+      "outcomes": [
+        "LO6",
+        "LO7",
+        "LO8"
+      ],
+      "concepts": [
+        "Product contracts, facts, dimensions and grain",
+        "BI reconciliation without multiplying fares",
+        "Historical features and availability at decision time",
+        "Unknown future labels versus zero",
+        "Release validation, recovery and reproducible delivery"
+      ],
+      "labs": [
+        {
+          "id": "07",
+          "title": "Build and recover a data release",
+          "path": "day05/labs/lab07/WALKTHROUGH.md"
+        },
+        {
+          "id": "08",
+          "title": "Consume, export and submit",
+          "path": "day05/labs/lab08/WALKTHROUGH.md"
+        }
+      ],
+      "expected": [
+        {
+          "label": "Validated products / CSV exports",
+          "value": "8 / 8",
+          "explanation": "Read each product contract and release manifest."
+        },
+        {
+          "label": "Reconciled trips / fares",
+          "value": "75 / SAR 1,880.60",
+          "explanation": "Aggregated products reconcile to the same trusted trips."
+        },
+        {
+          "label": "Recorded GPS events",
+          "value": "217",
+          "explanation": "Count events by trip before joining them to fare measures."
+        },
+        {
+          "label": "AI feature / label rows",
+          "value": "3 / 3",
+          "explanation": "Feature rows use historical data. Future labels remain NULL with UNOBSERVED status."
+        }
+      ],
+      "activity": {
+        "prompt": "At a decision cutoff, which input is valid: completed trips already available in the past 24 hours, or the actual trip count in the next hour?",
+        "answer": "Use the completed trips whose source data was available by the cutoff. The actual future-hour count is a future label, not an input available at prediction time."
+      },
+      "question": "bi.fact_trips has 75 rows, but ai.zone_hourly_features has three. Does that mean 72 trips were lost?",
+      "answer": "No. The products have different grain and time windows. The fact table has one row per trip; features have one row per city, cutoff and prediction horizon, using only eligible historical data.",
+      "deliverables": [
+        "Executed Day 5 notebook",
+        "student/day05/LAB07_NOTES.md and student/day05/LAB08_NOTES.md",
+        "Eight product exports and release manifest",
+        "BI reconciliation, AI feature checks and recovery evidence",
+        "student/PROJECT_README.md and five daily answers",
+        "Final repository URL, branch and commit SHA",
+        "student/day05/REFLECTION.md with your own answer and observed evidence"
+      ],
+      "notebook": "day05/STUDENT.ipynb",
+      "readme": "day05/README.md",
+      "slides": "slides/day05.json"
+    }
+  ],
+  "labs": [
+    {
+      "id": "01",
+      "day": 1,
+      "en": "Land and inspect raw feeds",
+      "concept": "day01/CONCEPTS.md",
+      "los": [
+        "LO1",
+        "LO8"
+      ],
+      "inputs": [
+        "trips.csv",
+        "drivers.csv",
+        "gps.ndjson"
+      ],
+      "output": [
+        "mini_lakehouse/bronze/",
+        "student/day01/LAB01_NOTES.md"
+      ],
+      "checks_en": [
+        "Read the source manifest and verify file hashes before processing.",
+        "Create real Delta Bronze tables with source and ingestion metadata.",
+        "Replay trips without overwriting history and explain the intended Bronze growth.",
+        "Record at least three quality risks; distinguish observed defects from risks."
+      ],
+      "status": "PARTIAL",
+      "walkthrough": "day01/labs/lab01/WALKTHROUGH.md",
+      "notebook": "day01/STUDENT.ipynb"
+    },
+    {
+      "id": "02",
+      "day": 1,
+      "en": "Cost and local scan evidence",
+      "concept": "day01/CONCEPTS.md",
+      "los": [
+        "LO2",
+        "LO8"
+      ],
+      "inputs": [
+        "trips.csv"
+      ],
+      "output": [
+        "BENCHMARKS.md",
+        "student/day01/LAB02_NOTES.md"
+      ],
+      "checks_en": [
+        "State every assumption and separate hypothetical teaching units from currency.",
+        "Compare always-on and scheduled operation, including overhead and a counterexample.",
+        "Measure actual Spark scans with equal-result checks and query plans.",
+        "Report observed timings without promising a speed-up on a tiny dataset."
+      ],
+      "status": "PARTIAL",
+      "walkthrough": "day01/labs/lab02/WALKTHROUGH.md",
+      "notebook": "day01/STUDENT.ipynb"
+    },
+    {
+      "id": "03",
+      "day": 2,
+      "en": "Build incremental Silver (3a + 3b)",
+      "concept": "day02/CONCEPTS.md",
+      "los": [
+        "LO3",
+        "LO8"
+      ],
+      "inputs": [
+        "trips.csv",
+        "drivers.csv",
+        "late_trips.csv"
+      ],
+      "output": [
+        "mini_lakehouse/silver/",
+        "student/day02/LAB03_NOTES.md"
+      ],
+      "checks_en": [
+        "Type columns and normalize timestamps consistently; preserve raw source files.",
+        "Normalize labels and validate driver relationships before publishing Silver.",
+        "Deduplicate on a documented business key and deterministic precedence rule.",
+        "Ingest the fixed late-trip batch and demonstrate that rerunning does not duplicate results."
+      ],
+      "status": "PARTIAL",
+      "walkthrough": "day02/labs/lab03/WALKTHROUGH.md",
+      "notebook": "day02/STUDENT.ipynb"
+    },
+    {
+      "id": "04",
+      "day": 3,
+      "en": "Delta operations (4a + 4b)",
+      "concept": "day03/CONCEPTS.md",
+      "los": [
+        "LO4",
+        "LO8"
+      ],
+      "inputs": [
+        "correction.csv",
+        "schema_change.csv",
+        "quality_cases.csv"
+      ],
+      "output": [
+        "student/day03/LAB04_NOTES.md",
+        "BENCHMARKS.md"
+      ],
+      "checks_en": [
+        "Observe real Delta transaction-log commits and enforce the table schema.",
+        "Reject invalid writes without silently dropping failed checks.",
+        "Apply the correction twice and compare logical table contents.",
+        "Read earlier versions and run maintenance/delete exercises only on isolated training copies."
+      ],
+      "status": "PARTIAL",
+      "walkthrough": "day03/labs/lab04/WALKTHROUGH.md",
+      "notebook": "day03/STUDENT.ipynb"
+    },
+    {
+      "id": "05",
+      "day": 4,
+      "en": "Stream events and resume safely",
+      "concept": "day04/CONCEPTS.md",
+      "los": [
+        "LO5",
+        "LO8"
+      ],
+      "inputs": [
+        "gps.ndjson",
+        "gps_replay.ndjson",
+        "gps_late.ndjson"
+      ],
+      "output": [
+        "student/day04/LAB05_NOTES.md",
+        "mini_lakehouse/bronze/"
+      ],
+      "checks_en": [
+        "Demonstrate an actual Kafka producer/consumer and Spark streaming source.",
+        "Assign a separate persistent checkpoint to each streaming query.",
+        "Record the observed effect of stop/restart and duplicate event deliveries.",
+        "Explain event time, processing time and late-event handling from saved evidence."
+      ],
+      "status": "PARTIAL",
+      "walkthrough": "day04/labs/lab05/WALKTHROUGH.md",
+      "notebook": "day04/STUDENT.ipynb"
+    },
+    {
+      "id": "06",
+      "day": 4,
+      "en": "Quality gate and governance",
+      "concept": "day04/CONCEPTS.md",
+      "los": [
+        "LO6",
+        "LO8"
+      ],
+      "inputs": [
+        "quality_cases.csv"
+      ],
+      "output": [
+        "student/day04/LAB06_NOTES.md",
+        "GOVERNANCE.md",
+        "reports/quality/"
+      ],
+      "checks_en": [
+        "Run an actual Great Expectations suite on the intended table.",
+        "Quarantine invalid records with reasons and stop unsafe promotion.",
+        "Record quality, freshness and run-health observations against fixed scenario times.",
+        "Document lineage, ownership, intended access and retention; use synthetic data only."
+      ],
+      "status": "PARTIAL",
+      "walkthrough": "day04/labs/lab06/WALKTHROUGH.md",
+      "notebook": "day04/STUDENT.ipynb"
+    },
+    {
+      "id": "07",
+      "day": 5,
+      "en": "Integrate the Mini-Lakehouse",
+      "concept": "day05/CONCEPTS.md",
+      "los": [
+        "LO8"
+      ],
+      "inputs": [
+        "Validated Day 4 Delta trips",
+        "Distinct Day 4 Delta events",
+        "scenario_schedule.json"
+      ],
+      "output": [
+        "mini_lakehouse/",
+        "student/day05/LAB07_NOTES.md",
+        "DECISIONS.md"
+      ],
+      "checks_en": [
+        "Run the dependency-ordered Bronze → Silver → Gold flow.",
+        "Prove that failures prevent unsafe downstream publication.",
+        "Rerun the same logical input and reconcile content, not volatile run timestamps.",
+        "Record one recovery attempt and preserve daily evidence rather than rebuilding undocumented work."
+      ],
+      "status": "PARTIAL",
+      "walkthrough": "day05/labs/lab07/WALKTHROUGH.md",
+      "notebook": "day05/STUDENT.ipynb"
+    },
+    {
+      "id": "08",
+      "day": 5,
+      "en": "Serve AI and BI; submit the same project",
+      "concept": "day05/CONCEPTS.md",
+      "los": [
+        "LO7",
+        "LO8"
+      ],
+      "inputs": [
+        "Committed Day 5 release manifest",
+        "Pinned Gold/AI/BI Delta tables"
+      ],
+      "output": [
+        "reports/serving/",
+        "student/day05/LAB08_NOTES.md",
+        "README.md"
+      ],
+      "checks_en": [
+        "Prepare feature and reporting outputs with explicit grains and definitions.",
+        "Exclude information unavailable at the stated prediction time from features.",
+        "Reconcile trip and fare totals between the trusted table and BI output.",
+        "Submit the accumulated repository and evidence, not a separate final assignment."
+      ],
+      "status": "PARTIAL",
+      "walkthrough": "day05/labs/lab08/WALKTHROUGH.md",
+      "notebook": "day05/STUDENT.ipynb"
+    }
+  ],
+  "learner_notebooks": [
+    "day01/STUDENT.ipynb",
+    "day02/STUDENT.ipynb",
+    "day03/STUDENT.ipynb",
+    "day04/STUDENT.ipynb",
+    "day05/STUDENT.ipynb"
+  ],
+  "notebooks": [
+    {
+      "path": "day01/STUDENT.ipynb",
+      "kind": "engine"
+    },
+    {
+      "path": "day02/STUDENT.ipynb",
+      "kind": "engine"
+    },
+    {
+      "path": "day03/STUDENT.ipynb",
+      "kind": "engine"
+    },
+    {
+      "path": "day04/STUDENT.ipynb",
+      "kind": "engine"
+    },
+    {
+      "path": "day05/STUDENT.ipynb",
+      "kind": "engine"
+    },
+    {
+      "path": "day02/REFERENCE.ipynb",
+      "kind": "reference"
+    },
+    {
+      "path": "day03/REFERENCE.ipynb",
+      "kind": "reference"
+    },
+    {
+      "path": "day04/REFERENCE.ipynb",
+      "kind": "reference"
+    },
+    {
+      "path": "day05/REFERENCE.ipynb",
+      "kind": "reference"
+    }
+  ],
+  "published": false,
+  "publication_authorized": true,
+  "labs_are_final_project": true,
+  "separate_final_project": false,
+  "dataset_manifest_sha256": "20a7e45bed2980b9394c10e8532da3b9f40f614366bb2df26a88610253e768e3",
+  "runtime_target_file": "runtime-target.json",
+  "student_entrypoint": "docs/START_HERE.md"
+}

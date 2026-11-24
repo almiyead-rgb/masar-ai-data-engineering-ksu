@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0",
+  "day": 1,
+  "dataset": "MASAR_SMALL_V1",
+  "metrics": {
+    "bronze_trip_receipts": 144,
+    "unique_trips": 72,
+    "drivers": 6,
+    "gps_events": 216
+  }
+}

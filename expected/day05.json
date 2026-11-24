@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "day": 5,
+  "dataset": "MASAR_SMALL_V1",
+  "metrics": {
+    "table_counts": {
+      "gold.zone_hourly_demand": 75,
+      "gold.driver_daily": 18,
+      "bi.dim_zone": 3,
+      "bi.dim_driver": 6,
+      "bi.dim_date": 3,
+      "bi.fact_trips": 75,
+      "ai.zone_hourly_features": 3,
+      "ai.zone_hourly_labels": 3
+    },
+    "trip_count": 75,
+    "total_fare_sar": "1880.60",
+    "gps_events": 217,
+    "unobserved_labels": 3
+  }
+}

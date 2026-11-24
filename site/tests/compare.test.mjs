@@ -1,0 +1,10 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {compareMetrics} from '../src/compare.mjs';
+const ref={schema_version:'1.0',day:2,dataset:'MASAR_SMALL_V1',metrics:{silver_trips:75,total_fare_sar:'1875.60',dbt_phase_rows:[72,72,75,75],nested:{rows:3}}};
+test('matches all stable metrics including nested objects and ordered arrays',()=>assert.equal(compareMetrics(structuredClone(ref),ref).status,'match'));
+test('rejects wrong day or dataset before comparing values',()=>{const x={...ref,day:3};const result=compareMetrics(x,ref);assert.equal(result.status,'invalid');assert.match(result.issues[0],/day/)});
+test('does not coerce numeric strings or decimal currency values',()=>{const x=structuredClone(ref);x.metrics.silver_trips='75';x.metrics.total_fare_sar=1875.6;const r=compareMetrics(x,ref);assert.equal(r.status,'mismatch');assert.equal(r.checks.filter(c=>!c.match).length,2)});
+test('reports missing metrics and different array order',()=>{const x=structuredClone(ref);delete x.metrics.nested.rows;x.metrics.dbt_phase_rows=[72,75,72,75];const r=compareMetrics(x,ref);assert.equal(r.status,'mismatch');assert.equal(r.checks.find(c=>c.path==='metrics.nested.rows').present,false)});
+test('reports extra fields without treating them as assessed metrics',()=>{const x=structuredClone(ref);x.run_id='variable';x.metrics.optional=1;const r=compareMetrics(x,ref);assert.equal(r.status,'match');assert.deepEqual(r.extras,['metrics.optional','run_id'])});
+test('rejects invalid envelopes and metrics arrays',()=>{assert.equal(compareMetrics([],ref).status,'invalid');assert.equal(compareMetrics({...ref,metrics:[]},ref).status,'invalid')});

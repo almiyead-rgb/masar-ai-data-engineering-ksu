@@ -1,0 +1,10 @@
+{
+  "schema_version": "1.0",
+  "day": 3,
+  "dataset": "MASAR_SMALL_V1",
+  "metrics": {
+    "silver_trips": 75,
+    "total_fare_sar": "1880.60",
+    "corrected_fare_sar": "23.00"
+  }
+}

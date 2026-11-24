@@ -1,0 +1,330 @@
+{
+  "day": 5,
+  "title": "Gold, AI/BI and final delivery",
+  "course_code": "SDA-DSC-214",
+  "language": "en",
+  "slide_count": 20,
+  "slides": [
+    {
+      "title": "Your project after Day 4",
+      "body": [
+        "You have 75 approved trips and 217 distinct events.",
+        "The failed candidate and quarantine remain evidence.",
+        "Today you build and consume the final products."
+      ],
+      "notes": "Restore your Day 4 handoff in a new session if needed. Day 5 reads the approved Delta snapshots; it does not need the previous Kafka broker to remain alive. The project is already cumulative. The final labs prepare serving outputs, test a release failure and package the evidence you have built.",
+      "kind": "opening",
+      "number": 1,
+      "sources": [
+        "https://learn.microsoft.com/en-us/power-bi/guidance/star-schema",
+        "https://docs.delta.io/delta-batch/",
+        "https://docs.feast.dev/getting-started/concepts/point-in-time-joins",
+        "https://github.com/almiyead-rgb/masar-ai-data-engineering-ksu/blob/main/day05/CONCEPTS.md"
+      ]
+    },
+    {
+      "title": "Day 5 outcomes",
+      "body": [
+        "Define each product and its row grain.",
+        "Reconcile BI and select time-appropriate AI inputs.",
+        "Recover a failed candidate and submit a reproducible project."
+      ],
+      "notes": "LO7 connects the Lakehouse to consumers and LO8 completes the integrated build. Quality controls continue to support LO6. Your deliverable includes both data and meaning: fields, units, keys, source versions and interpretation of null values. No additional unrelated final project is introduced.",
+      "kind": "outcomes",
+      "number": 2,
+      "sources": [
+        "https://learn.microsoft.com/en-us/power-bi/guidance/star-schema",
+        "https://docs.delta.io/delta-batch/",
+        "https://docs.feast.dev/getting-started/concepts/point-in-time-joins",
+        "https://github.com/almiyead-rgb/masar-ai-data-engineering-ksu/blob/main/day05/CONCEPTS.md"
+      ]
+    },
+    {
+      "title": "A data product has a contract",
+      "body": [
+        "State the consumer question.",
+        "Define one row, its key, fields and units.",
+        "Document checks and the selected input snapshots."
+      ],
+      "notes": "The eight outputs have different purposes. A fact table, a driver-day summary and a feature table should not be judged by whether their raw row counts match. Their contracts explain what each count represents and which measures should reconcile. Read the release manifest instead of guessing a folder path.",
+      "kind": "concept",
+      "number": 3,
+      "sources": [
+        "https://learn.microsoft.com/en-us/power-bi/guidance/star-schema",
+        "https://docs.delta.io/delta-batch/",
+        "https://docs.feast.dev/getting-started/concepts/point-in-time-joins",
+        "https://github.com/almiyead-rgb/masar-ai-data-engineering-ksu/blob/main/day05/CONCEPTS.md"
+      ]
+    },
+    {
+      "title": "Facts, dimensions and grain",
+      "body": [
+        "Facts hold measures at a stated business grain.",
+        "Dimensions provide unique keys and descriptions.",
+        "Each fact should join to one intended dimension row."
+      ],
+      "notes": "The trip fact has one row per trip_id. City, driver and date dimensions provide descriptions. Validate uniqueness before using a dimension in a report. The city field is a city proxy, not a measured neighborhood or service-zone boundary. Make that resolution visible in the contract.",
+      "kind": "concept",
+      "number": 4,
+      "sources": [
+        "https://learn.microsoft.com/en-us/power-bi/guidance/star-schema",
+        "https://docs.delta.io/delta-batch/",
+        "https://docs.feast.dev/getting-started/concepts/point-in-time-joins",
+        "https://github.com/almiyead-rgb/masar-ai-data-engineering-ksu/blob/main/day05/CONCEPTS.md"
+      ]
+    },
+    {
+      "title": "Aggregation changes row meaning",
+      "body": [
+        "75 trip facts can become 18 driver-day groups.",
+        "Sum trip_count to reconcile the population.",
+        "Combine averages through totals and counts."
+      ],
+      "notes": "A summary row can represent several trips. Comparing 18 groups with 75 trips does not show loss. For combined averages, use the sum of duration divided by the sum of trip count; an unweighted mean of unequal-size group averages can be wrong. Preserve the components needed for correct downstream aggregation.",
+      "kind": "concept",
+      "number": 5,
+      "sources": [
+        "https://learn.microsoft.com/en-us/power-bi/guidance/star-schema",
+        "https://docs.delta.io/delta-batch/",
+        "https://docs.feast.dev/getting-started/concepts/point-in-time-joins",
+        "https://github.com/almiyead-rgb/masar-ai-data-engineering-ksu/blob/main/day05/CONCEPTS.md"
+      ]
+    },
+    {
+      "title": "The GPS join boundary",
+      "body": [
+        "A trip can have several location events.",
+        "Count distinct events per trip first.",
+        "Left-join that one count to the trip fact."
+      ],
+      "notes": "A direct join of raw event rows repeats trip-level fares. The safe path aggregates at the trip key before joining. The three late trips remain even if they have no recorded GPS events; their event count is zero. The final fact's recorded event total is 217, not 219 delivery receipts.",
+      "kind": "concept",
+      "number": 6,
+      "sources": [
+        "https://learn.microsoft.com/en-us/power-bi/guidance/star-schema",
+        "https://docs.delta.io/delta-batch/",
+        "https://docs.feast.dev/getting-started/concepts/point-in-time-joins",
+        "https://github.com/almiyead-rgb/masar-ai-data-engineering-ksu/blob/main/day05/CONCEPTS.md"
+      ]
+    },
+    {
+      "title": "BI reconciliation",
+      "body": [
+        "Each city has 25 trips.",
+        "City fares sum to SAR 1,880.60.",
+        "Check group assignments as well as the grand total."
+      ],
+      "notes": "Riyadh totals 585.00 SAR, Jeddah 625.20 SAR and Dammam 670.40 SAR. Matching only the grand total can hide a value assigned to the wrong city. The supplied SQL executes against a registered fact view after the release is validated. Use the same units and trip-start-date definition when comparing reports.",
+      "kind": "concept",
+      "number": 7,
+      "sources": [
+        "https://learn.microsoft.com/en-us/power-bi/guidance/star-schema",
+        "https://docs.delta.io/delta-batch/",
+        "https://docs.feast.dev/getting-started/concepts/point-in-time-joins",
+        "https://github.com/almiyead-rgb/masar-ai-data-engineering-ksu/blob/main/day05/CONCEPTS.md"
+      ]
+    },
+    {
+      "title": "A feature has a decision time",
+      "body": [
+        "Use a stated cutoff and prediction horizon.",
+        "Check when the event happened and when its revision was available.",
+        "Keep future labels separate from model inputs."
+      ],
+      "notes": "The fixed cutoff is 2026-06-04 at 06:05 Riyadh. The historical window is the prior 24 hours, using completed trips whose source revision was available by that cutoff. The target is the next complete hour,07:00–08:00 Riyadh. These are scenario settings, not the wall-clock date when you run the notebook.",
+      "kind": "concept",
+      "number": 8,
+      "sources": [
+        "https://learn.microsoft.com/en-us/power-bi/guidance/star-schema",
+        "https://docs.delta.io/delta-batch/",
+        "https://docs.feast.dev/getting-started/concepts/point-in-time-joins",
+        "https://github.com/almiyead-rgb/masar-ai-data-engineering-ksu/blob/main/day05/CONCEPTS.md"
+      ]
+    },
+    {
+      "title": "Quick activity: make the decision",
+      "body": [
+        "At a decision cutoff, which input is valid: completed trips already available in the past 24 hours, or the actual trip count in the next hour?",
+        "Think: 1 minute. Compare: 2 minutes. Discuss: 2 minutes."
+      ],
+      "notes": "Use the project terms rather than naming tools without a reason. State your choice and the assumption behind it. The activity is part of the explanation time and has no separate project mark.",
+      "kind": "activity",
+      "number": 9,
+      "sources": [
+        "https://github.com/almiyead-rgb/masar-ai-data-engineering-ksu/blob/main/day05/PRACTICE.md"
+      ]
+    },
+    {
+      "title": "Activity answer",
+      "body": [
+        "Use the completed trips whose source data was available by the cutoff. The actual future-hour count is a future label, not an input available at prediction time."
+      ],
+      "notes": "Compare the reasoning as well as the final choice. If you selected another answer, identify which meaning of a row, time boundary or business rule led to it. The project will provide an observable example of this decision.",
+      "kind": "activity-answer",
+      "number": 10,
+      "sources": [
+        "https://github.com/almiyead-rgb/masar-ai-data-engineering-ksu/blob/main/day05/PRACTICE.md"
+      ]
+    },
+    {
+      "title": "Historical inputs and unknown labels",
+      "body": [
+        "Each city has eight eligible completed trips.",
+        "Feature rows summarize eligible historical data.",
+        "Future targets remain NULL with UNOBSERVED status."
+      ],
+      "notes": "An unknown future label is not an observed zero. The fixture has no observed target-hour outcomes for supervised model fitting or accuracy measurement. Keep allowed inputs separate from audit fields and labels. The mean historical durations are 1,230, 1,350 and 1,470seconds for Riyadh, Jeddah and Dammam respectively.",
+      "kind": "concept",
+      "number": 11,
+      "sources": [
+        "https://learn.microsoft.com/en-us/power-bi/guidance/star-schema",
+        "https://docs.delta.io/delta-batch/",
+        "https://docs.feast.dev/getting-started/concepts/point-in-time-joins",
+        "https://github.com/almiyead-rgb/masar-ai-data-engineering-ksu/blob/main/day05/CONCEPTS.md"
+      ]
+    },
+    {
+      "title": "The eight products",
+      "body": [
+        "Gold: hourly city observations and driver-day summaries.",
+        "BI: trip facts plus city, driver and date dimensions.",
+        "AI: historical features and separate label-status rows."
+      ],
+      "notes": "Expected row counts are 75, 18, 3, 6, 3, 75, 3 and 3in the documented product order. The hourly demand name means observed trip starts here, not every customer request or measured market demand. The three label-status rows document missing future truth. Product names are path-based manifest entries, not automatically registered SQL tables.",
+      "kind": "concept",
+      "number": 12,
+      "sources": [
+        "https://learn.microsoft.com/en-us/power-bi/guidance/star-schema",
+        "https://docs.delta.io/delta-batch/",
+        "https://docs.feast.dev/getting-started/concepts/point-in-time-joins",
+        "https://github.com/almiyead-rgb/masar-ai-data-engineering-ksu/blob/main/day05/CONCEPTS.md"
+      ]
+    },
+    {
+      "title": "A local release manifest",
+      "body": [
+        "Record the selected input versions.",
+        "Write and validate all candidate tables.",
+        "Advance the reader pointer only after successful validation."
+      ],
+      "notes": "Each Delta table has its own commit. The local release protocol prevents this project reader from selecting a partially built candidate. It is not a single global transaction across eight tables, and it does not coordinate concurrent production publishers. Record the scope accurately when explaining the recovery demonstration.",
+      "kind": "concept",
+      "number": 13,
+      "sources": [
+        "https://learn.microsoft.com/en-us/power-bi/guidance/star-schema",
+        "https://docs.delta.io/delta-batch/",
+        "https://docs.feast.dev/getting-started/concepts/point-in-time-joins",
+        "https://github.com/almiyead-rgb/masar-ai-data-engineering-ksu/blob/main/day05/CONCEPTS.md"
+      ]
+    },
+    {
+      "title": "Controlled failure and recovery",
+      "body": [
+        "Build a valid release.",
+        "Fail a new candidate after its first table.",
+        "Keep the valid pointer, then recover and compare content."
+      ],
+      "notes": "The exercise confirms that an incomplete candidate does not replace the previous selected release. A successful rebuild receives a new identity but should have matching canonical business content. Compare the data contracts and hashes rather than volatile timestamps or directory names. This is a controlled failure, not a machine-crash test.",
+      "kind": "concept",
+      "number": 14,
+      "sources": [
+        "https://learn.microsoft.com/en-us/power-bi/guidance/star-schema",
+        "https://docs.delta.io/delta-batch/",
+        "https://docs.feast.dev/getting-started/concepts/point-in-time-joins",
+        "https://github.com/almiyead-rgb/masar-ai-data-engineering-ksu/blob/main/day05/CONCEPTS.md"
+      ]
+    },
+    {
+      "title": "Export data with its meaning",
+      "body": [
+        "Create eight small CSV exports.",
+        "Keep units, keys and null interpretation beside them.",
+        "Preserve Delta state separately for continued work."
+      ],
+      "notes": "CSV is convenient for inspecting or handing a small result to a consumer, but it does not carry the full Delta schema or transaction history. The writer represents missing values as empty fields. Keep the data-product contract and release manifest with the exports so a consumer does not interpret an empty target as zero.",
+      "kind": "concept",
+      "number": 15,
+      "sources": [
+        "https://learn.microsoft.com/en-us/power-bi/guidance/star-schema",
+        "https://docs.delta.io/delta-batch/",
+        "https://docs.feast.dev/getting-started/concepts/point-in-time-joins",
+        "https://github.com/almiyead-rgb/masar-ai-data-engineering-ksu/blob/main/day05/CONCEPTS.md"
+      ]
+    },
+    {
+      "title": "Your final submission",
+      "body": [
+        "Complete student/PROJECT_README.md and link it from your root README.",
+        "Identify the final repository, branch and commit SHA.",
+        "Keep the full state archive available for private review."
+      ],
+      "notes": "The 100-point rubric rewards working components and explanations. All five attended days and at least 70 project points are required to pass. All five days with no project or below 70 earn attendance-only certification. Include the programme, instructor attribution, SDAIA Academy link and hashtag in your README and submission message. The instructor announces the private submission channel and deadline. The final project write-up lives in student/PROJECT_README.md, alongside your cumulative student evidence.",
+      "kind": "concept",
+      "number": 16,
+      "sources": [
+        "https://learn.microsoft.com/en-us/power-bi/guidance/star-schema",
+        "https://docs.delta.io/delta-batch/",
+        "https://docs.feast.dev/getting-started/concepts/point-in-time-joins",
+        "https://github.com/almiyead-rgb/masar-ai-data-engineering-ksu/blob/main/day05/CONCEPTS.md"
+      ]
+    },
+    {
+      "title": "Your 60-minute lab",
+      "body": [
+        "Build the eight products from approved inputs.",
+        "Inspect controlled release failure and recovery.",
+        "Run the BI/AI consumer checks and prepare your final submission."
+      ],
+      "notes": "Use 45 minutes for the guided execution and checks,5 minutes for your first answer,5 minutes for discussion and 5 minutes for saving. The notebook includes setup and a small student-authored task. Read the walkthrough and inspect the outputs. This work adds to your existing project rather than starting a new assignment.",
+      "kind": "lab",
+      "number": 17,
+      "sources": [
+        "https://github.com/almiyead-rgb/masar-ai-data-engineering-ksu/blob/main/day05/README.md",
+        "https://github.com/almiyead-rgb/masar-ai-data-engineering-ksu/blob/main/docs/EXPECTED_OUTPUTS.md"
+      ]
+    },
+    {
+      "title": "Compare and save",
+      "body": [
+        "Validated products / CSV exports: 8 / 8",
+        "Reconciled trips / fares: 75 / SAR 1,880.60",
+        "Recorded GPS events: 217",
+        "Save the notebook to GitHub and the full handoff to Drive."
+      ],
+      "notes": "Expected checkpoints: Validated products / CSV exports: 8 / 8. Read each product contract and release manifest. Reconciled trips / fares: 75 / SAR 1,880.60. Aggregated products reconcile to the same trusted trips. Recorded GPS events: 217. Count events by trip before joining them to fare measures. AI feature / label rows: 3 / 3. Feature rows use historical data. Future labels remain NULL with UNOBSERVED status. Save day05/STUDENT.ipynb with your outputs. Upload the extracted small files from outputs/day05_github.zip. Keep outputs/day05_handoff.zip on Drive. Compare business content; run IDs, paths and timings can differ. Complete your student/dayNN lab notes and shared project notes before saving; the bundle includes the student folder.",
+      "kind": "outputs",
+      "number": 18,
+      "sources": [
+        "https://github.com/almiyead-rgb/masar-ai-data-engineering-ksu/blob/main/day05/README.md",
+        "https://github.com/almiyead-rgb/masar-ai-data-engineering-ksu/blob/main/docs/EXPECTED_OUTPUTS.md"
+      ]
+    },
+    {
+      "title": "Your end-of-lab question",
+      "body": [
+        "bi.fact_trips has 75 rows, but ai.zone_hourly_features has three. Does that mean 72 trips were lost?",
+        "Record your first answer and observed evidence in student/day05/REFLECTION.md."
+      ],
+      "notes": "Work from your own run before reading the next slide. State the relevant grain, identity or time boundary. A count, fare, validation field or short query result can support your explanation. This reflection contributes one point to the 100-point project.",
+      "kind": "question",
+      "number": 19,
+      "sources": [
+        "https://github.com/almiyead-rgb/masar-ai-data-engineering-ksu/blob/main/day05/README.md",
+        "https://github.com/almiyead-rgb/masar-ai-data-engineering-ksu/blob/main/docs/EXPECTED_OUTPUTS.md"
+      ]
+    },
+    {
+      "title": "Model answer",
+      "body": [
+        "No. The products have different grain and time windows. The fact table has one row per trip; features have one row per city, cutoff and prediction horizon, using only eligible historical data."
+      ],
+      "notes": "Keep your initial answer and add a correction if needed. Explain the difference using a specific observed result from your notebook or report. The model answer is a learning reference, not a substitute for execution evidence.",
+      "kind": "answer",
+      "number": 20,
+      "sources": [
+        "https://github.com/almiyead-rgb/masar-ai-data-engineering-ksu/blob/main/day05/README.md",
+        "https://github.com/almiyead-rgb/masar-ai-data-engineering-ksu/blob/main/docs/EXPECTED_OUTPUTS.md"
+      ]
+    }
+  ]
+}

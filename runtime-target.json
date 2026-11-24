@@ -1,0 +1,29 @@
+{
+  "scope": "LEARNER_RUNTIME_SPECIFICATION",
+  "python": "3.12",
+  "java_major": 17,
+  "scala_binary": "2.12",
+  "packages": {
+    "pyspark": "3.5.8",
+    "delta-spark": "3.3.3",
+    "py4j": "0.10.9.9",
+    "dbt-core": "1.9.8",
+    "dbt-spark": "1.9.1",
+    "great-expectations": "1.7.0",
+    "pandas": "2.2.3",
+    "kafka-python": "2.2.15"
+  },
+  "container_recipe": "infrastructure/runtime/Dockerfile",
+  "container_build_verified": false,
+  "offline_execution_verified": false,
+  "execution_record": "docs/verification.json",
+  "supported_python": [
+    "3.11",
+    "3.12"
+  ],
+  "environment": "Google Colab CPU; native local compatibility runner",
+  "colab_runtime_candidate": "2026.07",
+  "colab_execution_verified": false,
+  "kafka_broker": "4.0.2",
+  "kafka_mode": "native KRaft, loopback only"
+}

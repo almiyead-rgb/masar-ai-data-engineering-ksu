@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0",
+  "day": 2,
+  "dataset": "MASAR_SMALL_V1",
+  "metrics": {
+    "bronze_trip_receipts": 150,
+    "silver_trips": 75,
+    "total_fare_sar": "1875.60",
+    "dbt_phase_rows": [
+      72,
+      72,
+      75,
+      75
+    ]
+  }
+}

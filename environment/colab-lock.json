@@ -1,0 +1,25 @@
+{
+  "scope": "DIRECT_DEPENDENCY_SPECIFICATION",
+  "python": "3.12",
+  "java_major": 17,
+  "colab_runtime_candidate": "2026.07",
+  "packages": {
+    "pyspark": "3.5.8",
+    "delta-spark": "3.3.3",
+    "py4j": "0.10.9.9",
+    "dbt-core": "1.9.8",
+    "dbt-spark": "1.9.1",
+    "great-expectations": "1.7.0",
+    "pandas": "2.2.3",
+    "kafka-python": "2.2.15"
+  },
+  "kafka_broker": "4.0.2",
+  "colab_execution_verified": false,
+  "verification_note": "See evidence for observed runtime and executed cells. This file is a direct-pin specification, not a transitive package lock or a Colab execution claim.",
+  "references": [
+    "https://research.google.com/colaboratory/runtime-version-faq.html",
+    "https://docs.delta.io/releases/",
+    "https://docs.getdbt.com/faqs/Core/install-python-compatibility",
+    "https://kafka.apache.org/40/getting-started/quickstart/"
+  ]
+}

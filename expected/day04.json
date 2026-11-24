@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0",
+  "day": 4,
+  "dataset": "MASAR_SMALL_V1",
+  "metrics": {
+    "transport_receipts": 219,
+    "unique_events": 217,
+    "candidate_rows": 82,
+    "quarantined_rows": 7,
+    "approved_rows": 75,
+    "total_fare_sar": "1880.60"
+  }
+}

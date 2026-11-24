@@ -1,0 +1,69 @@
+name: Execute the complete native course
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'scripts/**'
+      - 'day*/STUDENT.ipynb'
+      - 'day02/dbt/**'
+      - 'day05/sql/**'
+      - 'data/masar-small-v1/**'
+      - 'config/**'
+      - 'requirements*.txt'
+      - 'runtime-target.json'
+      - '.github/workflows/native-course.yml'
+permissions:
+  contents: write
+concurrency:
+  group: native-course-main
+  cancel-in-progress: false
+jobs:
+  execute:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 75
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: 'requirements*.txt'
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Install the pinned course and validation runtime
+        run: pip install -r requirements-validation.txt
+      - name: Execute ten notebooks and restore all daily handoffs
+        run: python scripts/execute_student_course.py --runs 2
+      - name: Validate the current release evidence
+        run: python scripts/check_repository.py --release
+      - name: Retain actual notebooks and native reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: native-course-evidence
+          path: |
+            evidence/student-course/
+            day*/STUDENT.ipynb
+            day*/verification.json
+            docs/verification.json
+            docs/VERIFICATION.md
+          retention-days: 30
+      - name: Publish the successful execution record
+        if: success() && github.ref == 'refs/heads/main'
+        env:
+          VALIDATED_SHA: ${{ github.sha }}
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git fetch origin main
+          test "$(git rev-parse origin/main)" = "$VALIDATED_SHA"
+          git add day*/STUDENT.ipynb day*/verification.json docs/verification.json docs/VERIFICATION.md
+          git add -f evidence/student-course
+          if ! git diff --cached --quiet; then
+            git commit -m 'Record two complete native course runs and observed outputs'
+            git push origin HEAD:main
+          fi
